@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import Gray from "./Stars/Gray";
 import Selected from "./Stars/Selected";
@@ -11,7 +11,9 @@ const RatingContainer = styled.div`
   padding: 40px 0 10px 0;
   border: 1px solid #e6e6e6;
   background: #fff;
+  margin: 12px 0;
 `;
+
 const RatingBox = styled.div`
   background: #fff;
   display: flex;
@@ -43,7 +45,69 @@ const RatingBox = styled.div`
     background-image: url("data:image/svg+xml;charset=UTF-8,${Hover}");
   }
 `;
-const RatingTitle = styled.div``;
+
+const Field = styled.div`
+  border-radius: 4px;
+
+  input {
+    min-height: 30px;
+    border-radius: 4px;
+    border: 1px solid #e6e6e6;
+    margin: 12px 0;
+    padding: 12px;
+    width: 97%;
+  }
+
+  textarea {
+    width: 97%;
+    border-radius: 4px;
+    min-height: 100px;
+    order-radius: 4px;
+    border: 1px solid #e6e6e6;
+    margin: 12px 0;
+    padding: 12px;
+  }
+`;
+
+const Wrapper = styled.div`
+  background: #333;
+  padding: 20px;
+  height: 100vh;
+  padding-top: 100px;
+`;
+
+const SubmitButton = styled.div`
+  color: #fff;
+  background: #777;
+  border: 1px solid #777;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 18px;
+  cursor: pointer;
+  width: 97%;
+  transition: all ease-in-out 0.1s;
+  margin-top: 20px;
+  text-align: center;
+
+  &:hover {
+    background: #fff;
+    color: #777;
+    border: 1px solid #fff;
+  }
+`;
+
+const Headline = styled.div`
+  padding: 20px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #fff;
+`;
+
+const RatingTitle = styled.div`
+  font-size: 20px;
+  padding-bottom: 20px;
+  font-weight: bold;
+`;
 
 const ReviewForm = ({
   handleSubmit,
@@ -52,26 +116,26 @@ const ReviewForm = ({
   review,
   attributes: { name },
 }) => {
-  const ratingOptions = [5, 4, 3, 2, 1].map((score, idx) => {
+  const ratingOptions = [5, 4, 3, 2, 1].map((score, index) => {
     return (
-      <>
+      <Fragment key={index}>
         <input
           type='radio'
           value={score}
           name='rating'
           checked={review.score == score}
-          onChange={() => console.log("Selected:", score)}
           id={`rating-${score}`}
+          readOnly
         />
         <label onClick={setRating.bind(this, score)}></label>
-      </>
+      </Fragment>
     );
   });
   return (
-    <div className='wrapper'>
+    <Wrapper>
       <form onSubmit={handleSubmit}>
-        <div>Have an experience with {name}? Share your review.</div>
-        <div className='field'>
+        <Headline>Have an experience with {name}? Share your review.</Headline>
+        <Field>
           <input
             onChange={handleChange}
             value={review.title}
@@ -79,25 +143,23 @@ const ReviewForm = ({
             name='title'
             placeholder='Review Title'
           />
-        </div>
-        <div className='field'>
+        </Field>
+        <Field>
           <textarea
             onChange={handleChange}
             value={review.description}
             name='description'
-            cols='30'
-            rows='10'
             placeholder='Review Description'></textarea>
-        </div>
-        <div className='field'>
+        </Field>
+        <Field>
           <RatingContainer>
-            <div className='ratingTitle'>Rate this Airline</div>
+            <RatingTitle>Rate this Airline</RatingTitle>
             <RatingBox>{ratingOptions}</RatingBox>
           </RatingContainer>
-        </div>
-        <button type='submit'>Submit Your Review</button>
+        </Field>
+        <SubmitButton type='submit'>Submit Your Review</SubmitButton>
       </form>
-    </div>
+    </Wrapper>
   );
 };
 
