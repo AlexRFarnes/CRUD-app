@@ -40,7 +40,7 @@ const Header = ({
       </h1>
       <div>
         <TotalReviews>{totalReviews} User Reviews</TotalReviews>
-        <div className='starRating'></div>
+        <div className='starRating'>{avg_score}</div>
         <TotalOutOf>{avg_score} out of 5</TotalOutOf>
       </div>
     </Wrapper>

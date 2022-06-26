@@ -76,7 +76,9 @@ const Wrapper = styled.div`
   padding-top: 100px;
 `;
 
-const SubmitButton = styled.div`
+const SubmitButton = styled.button.attrs({
+  type: "submit",
+})`
   color: #fff;
   background: #777;
   border: 1px solid #777;

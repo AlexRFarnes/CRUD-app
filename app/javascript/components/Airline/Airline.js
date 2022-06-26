@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Header from "./Header";
+import Review from "./Review";
 import ReviewForm from "./ReviewForm";
 import styled from "styled-components";
 
@@ -19,7 +20,7 @@ const Column = styled.div`
     background: #000;
   }
 `;
-const HeaderWrapper = styled.div`
+const Main = styled.div`
   padding-left: 50px;
 `;
 
@@ -85,19 +86,27 @@ const Airline = () => {
     setReview({ ...review, score });
   };
 
+  let reviews;
+  if (loaded && airline.included) {
+    reviews = airline.included.map((item, index) => {
+      {
+        return <Review key={index} attributes={item.attributes} />;
+      }
+    });
+  }
+
   return (
     <Wrapper>
       {loaded && (
         <>
           <Column>
-            <HeaderWrapper>
+            <Main>
               <Header
                 attributes={airline.data.attributes}
                 totalReviews={airline.included.length}
               />
-
-              <div className='reviews'></div>
-            </HeaderWrapper>
+              {reviews}
+            </Main>
           </Column>
           <Column>
             <ReviewForm
